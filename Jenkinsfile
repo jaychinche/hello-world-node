@@ -2,10 +2,16 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'Node17' // Make sure this is configured in Jenkins Global Tool Config
+        nodejs 'Node17' // Must match the name from Global Tool Configuration
     }
 
     stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/jaychinche/hello-world-node.git'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -14,17 +20,17 @@ pipeline {
 
         stage('Run App') {
             steps {
-                sh 'nohup npm start &'
+                sh 'node index.js'
             }
         }
     }
 
     post {
         success {
-            echo 'Application Deployed Successfully!'
+            echo 'Build succeeded!'
         }
         failure {
-            echo 'Deployment Failed!'
+            echo 'Build failed!'
         }
     }
 }
