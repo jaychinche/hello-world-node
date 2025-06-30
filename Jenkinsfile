@@ -1,16 +1,11 @@
 pipeline {
     agent any
+
     tools {
-        git 'Default'  
+        nodejs 'Node17' // Make sure this is configured in Jenkins Global Tool Config
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/jaychinche/hello-world-node.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
