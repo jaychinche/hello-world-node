@@ -2,7 +2,8 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'Node17'  // This must match the name in Global Tool Configuration
+        // Make sure this name matches exactly what you configured in Jenkins
+        nodejs 'Node17'
     }
     
     stages {
@@ -26,7 +27,8 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                sh 'node server.js'  // Adjust to your deploy script
+                // Using 'npm start' instead of directly calling node
+                sh 'npm start'
             }
         }
     }
