@@ -1,36 +1,33 @@
 pipeline {
     agent any
-
+    
     tools {
-        nodejs 'Node17' // Must match the name from Global Tool Configuration
+        nodejs 'Node17'  // This must match the name in Global Tool Configuration
     }
-
+    
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/jaychinche/hello-world-node.git'
+                checkout scm
             }
         }
-
+        
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-
-        stage('Run App') {
+        
+        stage('Test') {
             steps {
-                sh 'node index.js'
+                sh 'npm test'
             }
         }
-    }
-
-    post {
-        success {
-            echo 'Build succeeded!'
-        }
-        failure {
-            echo 'Build failed!'
+        
+        stage('Deploy') {
+            steps {
+                sh 'node server.js'  // Adjust to your deploy script
+            }
         }
     }
 }
